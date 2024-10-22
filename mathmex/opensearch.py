@@ -23,7 +23,7 @@ class ElasticSearchInterFace:
     Provides commands needed to interact with ElasticSearch
     """
 
-    def __init__(self,host='localhost',port=9200,username=None,password=None,model=None,config_path=None):
+    def __init__(self,host='localhost',port=9200,username=None,password=None,model=True,config_path=None):
         # If a config path is defined read the variables from that file instead of the parameters
         if config_path:
             config = configparser.ConfigParser()
@@ -45,8 +45,8 @@ class ElasticSearchInterFace:
     
         if not self.es.ping():
             raise ValueError("Connection failed")
-
-        self.model= ArqMathSentenceTransformer()
+        if model:
+            self.model= ArqMathSentenceTransformer()
 
     def get_all_indices(self):
         return self.es.indices.get_alias("*")
