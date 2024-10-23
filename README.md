@@ -1,6 +1,11 @@
 # mathmex-functions
 This is a python package that allows you to easily work with our OpenSearch interface and our fine-tuned sentence transformer.
 
+# Installation
+To install the package run this command.
+```bash
+pip install git+https://github.com/jgore077/mathmex-functions.git
+```
 ## `opensearch`
 This our personal interface to the OpenSearch search engine. It provides many functions that can manipulate the OpenSearch instance and fulfill queries.
 ```python
