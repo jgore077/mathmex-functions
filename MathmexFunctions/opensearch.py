@@ -1,20 +1,12 @@
-from arq1thru3 import ArqMathSentenceTransformer
+from .arq1thru3 import ArqMathSentenceTransformer
 from opensearchpy import OpenSearch, helpers
 from collections import OrderedDict
 from collections import defaultdict
 import configparser
-import pprint
 import re
 import time
 import string
-import base64
 import math
-import os
-
-# Get the absolute path to the configuration file
-config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
-model_path = os.path.join(os.path.dirname(__file__), 'arq1thru3-finetuned-all-mpnet-jul-27')
-
 
 
 
@@ -28,6 +20,8 @@ class ElasticSearchInterFace:
         if config_path:
             config = configparser.ConfigParser()
             config.read(config_path)
+            host=config.get('OpenSearch', 'host')
+            port=config.get('OpenSearch', 'port')
             username = config.get('OpenSearch', 'username')
             password = config.get('OpenSearch', 'password')
             
@@ -210,7 +204,7 @@ class ElasticSearchInterFace:
         # Return the list of corrected tokens
         return top_corrected_tokens
     
-    def single_index_search(self, index_name, vector_query, query, n):
+    def single_index_search(self, index_name, vector_query, query, n,highlight=False):
         knn_query = {}
         if index_name == 'images':
             knn_query = {
@@ -235,24 +229,25 @@ class ElasticSearchInterFace:
                         }
                     }
                 },
-                # High lighting is temporarily disabled
-                # "highlight": {
-                #     "fields": {
-                #         "body_text": {
-                #             "type": "unified",
-                #             "fragment_size": 1000000,  # Large enough to cover your text
-                #             "number_of_fragments": 0
-                #         }
-                #     },
-                #     "highlight_query": {
-                #         "match": {
-                #             "body_text": {
-                #                 "query": query
-                #             }
-                #         }
-                #     }
-                # }
             }
+        # If highlight is true apply highlting to the query
+        if highlight:
+             knn_query["highlight"]={
+                    "fields": {
+                        "body_text": {
+                            "type": "unified",
+                            "fragment_size": 1000000,  # Large enough to cover your text
+                            "number_of_fragments": 0
+                        }
+                    },
+                    "highlight_query": {
+                        "match": {
+                            "body_text": {
+                                "query": query
+                            }
+                        }
+                    }
+                }
         # Perform the search using execute_search
         response = self.es.search(index=index_name, body=knn_query)
         results = self.format_results(response)
@@ -371,5 +366,3 @@ class ElasticSearchInterFace:
                     }
             }
         ))
-if __name__=="__main__":
-    es=ElasticSearchInterFace(config_path="C:\\Users\\James\\Projects\\mathmex-backend\\mathmex\\opensearch\\config.ini")

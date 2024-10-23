@@ -5,7 +5,8 @@ import requests
 import urllib3
 import os
 
-# Suppress only the single warning from urllib3.
+# Suppress only the ssl warning from urllib3.
+# I believe this is okay since we are only downloading files
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
 SORT_REGEX="\?[a-zA-Z=]{3}\;[a-zA-Z=]{3}"
@@ -33,8 +34,6 @@ def findLinks(url,links=[]):
             directorys.append(newUrl)
             continue
         links.append(url+href)
-        # part of the initial
-        # findLinks(newUrl) #recursion happening here
         
     for directory in directorys:
         findLinks(directory,links)

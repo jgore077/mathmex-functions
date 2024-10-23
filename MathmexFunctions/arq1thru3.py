@@ -2,7 +2,7 @@
 MODEL_URL="https://cs.usm.maine.edu/~behrooz.mansouri/arq1thru3-finetuned-all-mpnet-jul-27/"
 MODEL_NAME="arq1thru3-finetuned-all-mpnet-jul-27"
 
-from download_utils import downloadFilesAndCreateDirectorys
+from .download_utils import downloadFilesAndCreateDirectorys
 from sentence_transformers import SentenceTransformer
 import os
 
