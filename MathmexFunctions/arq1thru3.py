@@ -16,5 +16,7 @@ class ArqMathSentenceTransformer():
         self.model=SentenceTransformer(self.model_path)
 
     def encode(self,query):
-        "encodes the query into a vector"
+        """
+        encodes the query into a vector
+        """
         return self.model.encode(query)

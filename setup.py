@@ -12,7 +12,8 @@ setup(name='mathmex-functions',
         'numpy==1.26.4',
         'opensearch_py==2.2.0',
         'sentence_transformers==2.2.2',
-        'tqdm>=4.42.1'
+        'tqdm>=4.42.1',
+        'huggingface_hub==0.25.2'
       ],
       packages=setuptools.find_packages(),
      )
