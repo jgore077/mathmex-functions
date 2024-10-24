@@ -17,7 +17,7 @@ It provides all these functions
 ['autocomplete', 'create_index', 'delete_index', 'format_results', 'get_all_indices', 'insert_data', 'insert_session', 'perform_autocomplete', 'perform_autocorrect', 'read_top_k_index', 'retrieve_entry', 'single_index_search', 'vector_search']
 ```
 Instantiate a `ElasticSearchInterFace` object like this.
-```
+```python
 CONFIG_PATH="/path/to/config.ini"
 
 # setting model=True will attach a `ArqMathSentenceTransformer` object to interface, this is required for vector querys
